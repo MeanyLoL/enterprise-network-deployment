@@ -94,14 +94,11 @@ Pupils/Teachers/  Monitoring
 
 ## Python User Import Script
 
-Bulk-created Active Directory user accounts from a `.csv` file, automatically assigning each user to the correct group based on their role column.
-
-```python
-# Reads from users.csv → creates AD accounts → assigns group membership
-# Fields: FirstName, LastName, Role, Username, Password
-```
+Bulk-created Active Directory user accounts by iterating over a user list and executing PowerShell `New-ADUser` commands via Python's `subprocess` module, automatically placing each user into the correct Organisational Unit.
 
 > Script stored in the repository under `/scripts/import_users.py`
+
+**Identified improvement:** In the current implementation, user credentials are hardcoded directly in the script. In a future iteration I would separate this data into an external CSV file read at runtime, keeping credentials out of source code entirely. This follows the principle of separating data from logic and would be a requirement in any production environment.
 
 ---
 
