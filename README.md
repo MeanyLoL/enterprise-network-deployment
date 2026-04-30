@@ -49,7 +49,7 @@ Pupils/Teachers/  Monitoring
 ```
 
 **Domain:** `assignment2.local`  
-**Subnet:** `10.0.0.0/24`
+**Subnet:** `10.0.1.0/24`
 
 ---
 
