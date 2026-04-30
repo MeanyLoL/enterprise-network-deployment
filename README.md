@@ -123,15 +123,8 @@ Bulk-created Active Directory user accounts from a `.csv` file, automatically as
 ├── 📄 README.md
 ├── 📁 scripts/
 │   └── import_users.py        # Bulk AD user creation from CSV
-├── 📁 screenshots/            # Evidence screenshots organised by section
-│   ├── ad-setup/
-│   ├── dhcp-dns/
-│   ├── web-filtering/
-│   ├── monitoring/
-│   ├── deployment/
-│   └── extras/
-└── 📁 configs/
-    └── notes.md               # Key IPs, domain names, config references
+└── 📁 documentation/
+    └── Network-Infrastructure-Report.docx  # Full writeup with screenshots
 ```
 
 ---
