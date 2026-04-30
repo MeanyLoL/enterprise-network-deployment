@@ -16,11 +16,11 @@ Designed and deployed a multi-server enterprise network from scratch, replicatin
 |---|---|
 | Identity & Directory | Windows Server AD DS, Group Policy (GPO), LDAP |
 | DNS & DHCP | Windows DNS Server, DHCP with static reservations |
-| Web Security | Squid Web Proxy, Web Filtering (whitelist/blacklist), ICAP Server |
+| Web Security | Squid Web Proxy, Web Filtering, LDAP Authentication |
 | Monitoring | Nagios XI |
-| Deployment | WDS (PXE Boot), SCCM, AD Software Deployment, Python scripting |
-| Remote Access | VPN, RDP (role-restricted) |
-| Backup | Automated daily server backups over VPN |
+| Deployment | AD Software Deployment, Python scripting |
+| Remote Access | RDP (role-restricted) |
+| Backup | Automated daily server backups |
 | Scripting | Python (bulk user import via CSV) |
 | Networking | NAT, dual NIC configuration |
 
@@ -33,7 +33,7 @@ Designed and deployed a multi-server enterprise network from scratch, replicatin
                                |
                          [NAT Gateway]
                                |
-                        [Squid Proxy / ICAP]
+                        [Squid Proxy / Web Filter]
                                |
             ┌──────────────────┴──────────────────┐
             │                                     │
@@ -71,23 +71,15 @@ Pupils/Teachers/  Monitoring
 
 - **NAT** — Configured internet access for the internal network via NAT; verified with successful pings to `8.8.8.8`
 - **Web Proxy** — Squid proxy deployed; all client traffic routed through it — direct internet access blocked
-- **Content Filtering:**
-  - Pupils filtered via **whitelist** — can only access pre-approved sites
-  - Teachers and staff filtered via **blacklist** — unrestricted except blocked categories
 - **LDAP-Authenticated Proxy** — Proxy authenticates against AD via LDAP, preventing users from bypassing filters by switching accounts
-- **Deep Packet Inspection** — ICAP server deployed for keyword-based content filtering at the packet level
 
 ### Endpoint Deployment
 
-- **WDS / PXE Boot** — Windows Deployment Services configured; machines boot from network and auto-join the domain
-- **Image Locking** — Deployment images tied to specific physical machines (MAC-based enforcement)
 - **AD Software Deployment** — Applications (Chrome, LibreOffice via script fallback) deployed automatically via GPO on login
-- **Role-Based App Deployment** — Software packages distributed based on user group membership
 
 ### Monitoring (Nagios XI)
 
 - **Server Health** — All servers monitored for uptime and availability
-- **Disk Space Alerts** — Warning triggered at 80% usage; critical alert at 90%
 - **Service Checks** — Active monitors for PDC, BDC, DNS, and DHCP services
 - **Login Auditing** — GPO configured to log all logon events: username, machine name, and timestamp
 - **Web Access Logging** — Proxy access logs integrated into Nagios audit trail with timestamps
@@ -96,10 +88,7 @@ Pupils/Teachers/  Monitoring
 ### Extras & Hardening
 
 - **Daily Backups** — Automated nightly server backups scheduled to an internal backup machine
-- **VPN** — VPN tunnel configured to external endpoint; backup traffic transmitted over VPN
 - **RDP (Admin)** — Remote Desktop enabled on all machines, restricted to `System Administrators` only
-- **Teacher VPN** — Per-teacher VPN accounts provisioned to allow remote access to network drives and resources
-- **Teacher RDP** — Teachers can RDP into their school desktop from home; pupil accounts explicitly blocked from RDP
 
 ---
 
@@ -133,13 +122,11 @@ Bulk-created Active Directory user accounts from a `.csv` file, automatically as
 
 - Windows Server administration and Active Directory architecture
 - DNS, DHCP, and network topology design
-- Web proxy configuration and multi-tier content filtering
-- LDAP integration for proxy authentication
+- Web proxy configuration and content filtering with LDAP authentication
 - Automated user provisioning with Python
-- Network monitoring with alerting thresholds (Nagios XI)
-- PXE/WDS network boot and image deployment
+- Network monitoring and service checks (Nagios XI)
 - Group Policy design for security hardening
-- VPN and RDP configuration with role-based access
+- RDP configuration with role-based access
 - Backup strategy design and implementation
 
 ---
@@ -148,4 +135,3 @@ Bulk-created Active Directory user accounts from a `.csv` file, automatically as
 
 - All credentials shown are lab/test credentials only — not used in any production environment
 - This project was completed as part of a university networking module (CO2516) and extended with additional hardening features
-- Some features (SCCM, full PXE image locking) proved more challenging to fully implement and are something I plan to revisit and complete in the future
